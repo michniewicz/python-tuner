@@ -1,27 +1,13 @@
 #! /usr/bin/env python
-######################################################################
-# tuner.py - a minimal command-line guitar/ukulele tuner in Python.
-# Requires numpy and pyaudio.
-######################################################################
-# Author:  Matt Zucker
-# Date:    July 2016
-# License: Creative Commons Attribution-ShareAlike 3.0
-#          https://creativecommons.org/licenses/by-sa/3.0/us/
-######################################################################
 
 import numpy as np
 import pyaudio
 
-######################################################################
-# Feel free to play with these numbers. Might want to change NOTE_MIN
-# and NOTE_MAX especially for guitar/bass. Probably want to keep
-# FRAME_SIZE and FRAMES_PER_FFT to be powers of two.
-
-NOTE_MIN = 60       # C4
-NOTE_MAX = 69       # A4
+NOTE_MIN = 40       # E2
+NOTE_MAX = 64       # E4
 FSAMP = 22050       # Sampling frequency in Hz
-FRAME_SIZE = 2048   # How many samples per frame?
-FRAMES_PER_FFT = 16 # FFT takes average across how many frames?
+FRAME_SIZE = 2048   # samples per frame
+FRAMES_PER_FFT = 16  # FFT takes average across how many frames?
 
 ######################################################################
 # Derived quantities from constants above. Note that as
@@ -35,7 +21,8 @@ FREQ_STEP = float(FSAMP)/SAMPLES_PER_FFT
 ######################################################################
 # For printing out notes
 
-NOTE_NAMES = 'C C# D D# E F F# G G# A A# B'.split()
+NOTE_NAMES = 'E F F# G G# A A# B C C# D D#'.split()
+
 
 ######################################################################
 # These three functions are based upon this very useful webpage:
@@ -43,7 +30,8 @@ NOTE_NAMES = 'C C# D D# E F F# G G# A A# B'.split()
 
 def freq_to_number(f): return 69 + 12*np.log2(f/440.0)
 def number_to_freq(n): return 440 * 2.0**((n-69)/12.0)
-def note_name(n): return NOTE_NAMES[n % 12] + str(n/12 - 1)
+def note_name(n):
+    return NOTE_NAMES[n % NOTE_MIN % len(NOTE_NAMES)] + str(int(n / 12 - 1))
 
 ######################################################################
 # Ok, ready to go now.
