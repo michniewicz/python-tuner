@@ -28,8 +28,12 @@ NOTE_NAMES = 'E F F# G G# A A# B C C# D D#'.split()
 # These three functions are based upon this very useful webpage:
 # https://newt.phys.unsw.edu.au/jw/notes.html
 
-def freq_to_number(f): return 69 + 12*np.log2(f/440.0)
-def number_to_freq(n): return 440 * 2.0**((n-69)/12.0)
+def freq_to_number(f): return 64 + 12 * np.log2(f / 329.63)
+
+
+def number_to_freq(n): return 329.63 * 2.0**((n - 64) / 12.0)
+
+
 def note_name(n):
     return NOTE_NAMES[n % NOTE_MIN % len(NOTE_NAMES)] + str(int(n / 12 - 1))
 
