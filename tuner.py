@@ -11,12 +11,12 @@ FRAMES_PER_FFT = 16  # FFT takes average across how many frames?
 
 ######################################################################
 # Derived quantities from constants above. Note that as
-# SAMPLES_PER_FFT goes up, the frequency step size decreases (so
+# SAMPLES_PER_FFT goes up, the frequency step size decreases (sof
 # resolution increases); however, it will incur more delay to process
 # new sounds.
 
-SAMPLES_PER_FFT = FRAME_SIZE*FRAMES_PER_FFT
-FREQ_STEP = float(FSAMP)/SAMPLES_PER_FFT
+SAMPLES_PER_FFT = FRAME_SIZE * FRAMES_PER_FFT
+FREQ_STEP = float(FSAMP) / SAMPLES_PER_FFT
 
 ######################################################################
 # For printing out notes
@@ -42,11 +42,15 @@ def note_name(n):
 
 # Get min/max index within FFT of notes we care about.
 # See docs for numpy.rfftfreq()
-def note_to_fftbin(n): return number_to_freq(n)/FREQ_STEP
-imin = max(0, int(np.floor(note_to_fftbin(NOTE_MIN-1))))
-imax = min(SAMPLES_PER_FFT, int(np.ceil(note_to_fftbin(NOTE_MAX+1))))
 
-# Allocate space to run an FFT. 
+
+def note_to_fftbin(n): return number_to_freq(n) / FREQ_STEP
+
+
+imin = max(0, int(np.floor(note_to_fftbin(NOTE_MIN - 1))))
+imax = min(SAMPLES_PER_FFT, int(np.ceil(note_to_fftbin(NOTE_MAX + 1))))
+
+# Allocate space to run an FFT.
 buf = np.zeros(SAMPLES_PER_FFT, dtype=np.float32)
 num_frames = 0
 
@@ -60,7 +64,7 @@ stream = pyaudio.PyAudio().open(format=pyaudio.paInt16,
 stream.start_stream()
 
 # Create Hanning window function
-window = 0.5 * (1 - np.cos(np.linspace(0, 2*np.pi, SAMPLES_PER_FFT, False)))
+window = 0.5 * (1 - np.cos(np.linspace(0, 2 * np.pi, SAMPLES_PER_FFT, False)))
 
 # Print initial text
 print('sampling at', FSAMP, 'Hz with max resolution of', FREQ_STEP, 'Hz')
