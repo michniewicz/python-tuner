@@ -1,9 +1,15 @@
-# python-tuner
-Minimal command-line guitar/ukulele tuner in Python. 
-Writeup at <https://mzucker.github.io/2016/08/07/ukulele-tuner.html>
+# tuner for 6-strings guitar
+Command line guitar tuner written in Python.
 
-To run:
+Originally forked from https://github.com/mzucker/python-tuner
 
-    python tuner.py
+### References
+https://en.wikipedia.org/wiki/Guitar_tunings
 
-...then pluck the strings!
+https://newt.phys.unsw.edu.au/jw/notes.html
+
+#### Using
+Make sure your `line in` you plug your guitar works correctly.
+
+Then just run:
+```python tuner.py```
